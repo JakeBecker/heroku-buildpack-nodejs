@@ -4,8 +4,13 @@ set -e            # fail fast
 set -o pipefail   # don't ignore exit codes when piping output
 # set -x          # enable debugging
 
+if [ -f $1/.heroku_config ]; then
+  echo "=====> Loading heroku config from $1/.heroku_config"
+  source $1/.heroku_config
+fi
+
 # Configure directories
-build_dir=$1
+build_dir=$1$NODE_WORKING_DIRECTORY
 cache_dir=$2
 env_dir=$3
 
