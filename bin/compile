@@ -125,7 +125,7 @@ rm -rf "$build_dir/.node-gyp"
 rm -rf "$build_dir/.npm"
 
 # run build
-if [-n "$NODE_BUILD_COMMAND"]; then
+if [ -n "$NODE_BUILD_COMMAND" ]; then
   status "Found build command: $NODE_BUILD_COMMAND, running now"
   eval $NODE_BUILD_COMMAND
 else
