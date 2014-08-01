@@ -117,13 +117,20 @@ status "Cleaning up node-gyp and npm artifacts"
 rm -rf "$build_dir/.node-gyp"
 rm -rf "$build_dir/.npm"
 
-# run build
-if [ -n "$NODE_BUILD_COMMAND" ]; then
-  status "Found build command: $NODE_BUILD_COMMAND, running now"
-  eval $NODE_BUILD_COMMAND
-else
-  status "No build command found"
-fi
+# Scope config var availability to build command
+(
+  if [ -d "$env_dir" ]; then
+    status "Exporting config vars to environment"
+    export_env_dir $env_dir
+  fi
+
+  if [ -n "$NODE_BUILD_COMMAND" ]; then
+    status "Found build command: $NODE_BUILD_COMMAND, running now"
+    eval $NODE_BUILD_COMMAND
+  else
+    status "No build command found"
+  fi
+)
 
 # If Procfile is absent, try to create one using `npm start`
 if [ ! -e $build_dir/Procfile ]; then
