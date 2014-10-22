@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# set -e            # fail fast
+set -e            # fail fast
 set -o pipefail   # don't ignore exit codes when piping output
 # set -x          # enable debugging
 
@@ -92,13 +92,6 @@ fi
   status "Installing dependencies"
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
-  
-  if [ $? -ne 0  ]; then
-    npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
-    if [ $? -ne 0  ]; then
-      exit 1
-    fi
-  fi
   
 )
 
