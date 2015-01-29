@@ -7,6 +7,8 @@ fi
 
 if [ -f $1$NODE_WORKING_DIRECTORY/package.json ]; then
   echo "Node.js" && exit 0
+elif [ -f $1/server.js ]; then
+  echo "Node.js" && exit 0
 else
   echo "no" && exit 1
 fi
