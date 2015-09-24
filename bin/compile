@@ -10,7 +10,12 @@ unset GIT_DIR     # Avoid GIT_DIR leak from previous build steps
 
 ### Configure directories
 
-BUILD_DIR=${1:-}
+if [ -f $1/.heroku_config ]; then
+  echo "Loading heroku config from $1/.heroku_config"
+  source $1/.heroku_config
+fi
+
+BUILD_DIR=${1:-}${NODE_WORKING_DIRECTORY:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
@@ -124,6 +129,18 @@ build_dependencies() {
 
 header "Building dependencies"
 build_dependencies | output "$LOG_FILE"
+
+build_application() {
+  if [ -n "$NODE_BUILD_COMMAND" ]; then
+    echo "Found build command: $NODE_BUILD_COMMAND"
+    (cd $BUILD_DIR && eval $NODE_BUILD_COMMAND)
+  else
+    echo "No build command found"
+  fi
+}
+
+header "Building application"
+build_application | indent
 
 cache_build() {
   local cache_directories=$(get_cache_directories)
