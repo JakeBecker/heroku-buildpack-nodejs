@@ -144,7 +144,7 @@ build_application() {
 }
 
 header "Building application"
-build_application | indent
+build_application
 
 cache_build() {
   local cache_directories=$(get_cache_directories)
