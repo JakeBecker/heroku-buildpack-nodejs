@@ -1,5 +1,13 @@
 # Node.js Buildpack Changelog
 
+## v83 (2015-10-05)
+
+Caching improvements
+
+- Fixes modules-checked-in reference URL
+- When cache restoration is disabled, empties the cache instead of saving it
+- Adds bower_components as a default cache target
+
 ## v82 (2015-09-30)
 
 Detects bower+angular resolution failures

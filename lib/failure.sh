@@ -49,7 +49,7 @@ warn_node_engine() {
 warn_prebuilt_modules() {
   local build_dir=${1:-}
   if [ -e "$build_dir/node_modules" ]; then
-    warning "node_modules checked into source control" "https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-"
+    warning "node_modules checked into source control" "https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git"
   fi
 }
 
@@ -72,9 +72,11 @@ warn_untracked_dependencies() {
   local log_file="$1"
   if grep -qi 'gulp: not found' "$log_file"; then
     warning "Gulp may not be tracked in package.json" "https://devcenter.heroku.com/articles/troubleshooting-node-deploys#ensure-you-aren-t-relying-on-untracked-dependencies"
-  elif grep -qi 'grunt: not found' "$log_file"; then
+  fi
+  if grep -qi 'grunt: not found' "$log_file"; then
     warning "Grunt may not be tracked in package.json" "https://devcenter.heroku.com/articles/troubleshooting-node-deploys#ensure-you-aren-t-relying-on-untracked-dependencies"
-  elif grep -qi 'bower: not found' "$log_file"; then
+  fi
+  if grep -qi 'bower: not found' "$log_file"; then
     warning "Bower may not be tracked in package.json" "https://devcenter.heroku.com/articles/troubleshooting-node-deploys#ensure-you-aren-t-relying-on-untracked-dependencies"
   fi
 }
